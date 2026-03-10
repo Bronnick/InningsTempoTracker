@@ -1,0 +1,800 @@
+{
+  "project": {
+    "name": "Innings Tempo Tracker",
+    "platform": [
+      "Android"
+    ],
+    "language": "Kotlin",
+    "minimumOSVersion": "8.0",
+    "architecture": "MVVM",
+    "dependencies": [
+      "androidx.lifecycle",
+      "androidx.room",
+      "mpandroidchart",
+      "material-components",
+      "kotlinx.serialization"
+    ],
+    "version": "1.0"
+  },
+  "designSystem": {
+    "theme": "Light",
+    "colors": {
+      "background": "#F8FAFC",
+      "primaryAccent": "#2476D1",
+      "secondaryAccent": "#5EB8FF",
+      "textPrimary": "#1A2836",
+      "textSecondary": "#4A6A8A",
+      "border": "#D4E1F4",
+      "error": "#D32F2F",
+      "success": "#2E7D32",
+      "warning": "#F9A825",
+      "card": "#FFFFFF",
+      "inputBackground": "#F1F6FB",
+      "iconActive": "#2476D1",
+      "iconInactive": "#A5BFD8"
+    },
+    "typography": {
+      "fontFamily": "Roboto",
+      "h1": 28,
+      "h2": 22,
+      "h3": 18,
+      "body": 16,
+      "caption": 13
+    },
+    "spacing": {
+      "xs": 4,
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "xl": 32
+    },
+    "radius": {
+      "sm": 6,
+      "md": 12,
+      "lg": 20
+    },
+    "elevation": {
+      "card": 2,
+      "modal": 8,
+      "button": 1
+    }
+  },
+  "app": {
+    "entryPoint": "MainActivity.kt",
+    "lifecycle": "singleTask",
+    "preloader": {
+      "screenName": "PreloaderScreen",
+      "animationType": "CircularLoader",
+      "initializationLogic": "Initialize local database, check storage permissions, load theme preferences, validate dependencies",
+      "dependencyChecks": [
+        "Room database",
+        "ThemeManager",
+        "NetworkState"
+      ],
+      "themeLoading": "Apply light theme and accent colors",
+      "transitionLogic": "On success, navigate to OnboardingStartScreen; on error, show error state with retry option"
+    },
+    "navigation": {
+      "type": "BottomTabNavigation",
+      "tabs": [
+        {
+          "tabName": "Home",
+          "icon": "ic_home",
+          "destination": "HomeScreen"
+        },
+        {
+          "tabName": "Library",
+          "icon": "ic_library",
+          "destination": "InningsLibraryScreen"
+        },
+        {
+          "tabName": "Analytics",
+          "icon": "ic_analytics",
+          "destination": "AnalyticsScreen"
+        },
+        {
+          "tabName": "Settings",
+          "icon": "ic_settings",
+          "destination": "SettingsScreen"
+        }
+      ]
+    },
+    "features": [
+      {
+        "screenName": "PreloaderScreen",
+        "view": "PreloaderView",
+        "viewModel": "PreloaderViewModel",
+        "screenType": "preloader",
+        "primaryPurpose": "App initialization and dependency validation",
+        "userActions": [
+          "RetryInitialization"
+        ],
+        "inputFields": [],
+        "validationReference": [],
+        "dataReadFrom": [
+          "ThemeManager",
+          "LocalStorage"
+        ],
+        "dataWriteTo": [],
+        "cachingPolicy": "none",
+        "offlineBehavior": "full",
+        "connectedServices": [
+          "ThemeManager",
+          "Room database"
+        ],
+        "navigationLinks": [
+          {
+            "to": "OnboardingStartScreen"
+          }
+        ],
+        "loadingState": "Animated circular loader with progress",
+        "emptyState": "",
+        "errorState": "Initialization failed message with retry button",
+        "retryBehavior": "Retry full initialization"
+      },
+      {
+        "screenName": "OnboardingStartScreen",
+        "view": "OnboardingStartView",
+        "viewModel": "OnboardingViewModel",
+        "screenType": "onboarding",
+        "primaryPurpose": "Introduce app concept and benefits",
+        "userActions": [
+          "Next",
+          "Skip"
+        ],
+        "inputFields": [],
+        "validationReference": [],
+        "dataReadFrom": [],
+        "dataWriteTo": [],
+        "cachingPolicy": "none",
+        "offlineBehavior": "full",
+        "connectedServices": [],
+        "navigationLinks": [
+          {
+            "to": "OnboardingInputDemoScreen"
+          }
+        ],
+        "loadingState": "Fade-in animation",
+        "emptyState": "",
+        "errorState": "",
+        "retryBehavior": ""
+      },
+      {
+        "screenName": "OnboardingInputDemoScreen",
+        "view": "OnboardingInputDemoView",
+        "viewModel": "OnboardingViewModel",
+        "screenType": "onboarding",
+        "primaryPurpose": "Demonstrate manual over input",
+        "userActions": [
+          "Next",
+          "Back",
+          "Skip"
+        ],
+        "inputFields": [],
+        "validationReference": [],
+        "dataReadFrom": [],
+        "dataWriteTo": [],
+        "cachingPolicy": "none",
+        "offlineBehavior": "full",
+        "connectedServices": [],
+        "navigationLinks": [
+          {
+            "to": "OnboardingAnalyticsDemoScreen"
+          }
+        ],
+        "loadingState": "Fade-in animation",
+        "emptyState": "",
+        "errorState": "",
+        "retryBehavior": ""
+      },
+      {
+        "screenName": "OnboardingAnalyticsDemoScreen",
+        "view": "OnboardingAnalyticsDemoView",
+        "viewModel": "OnboardingViewModel",
+        "screenType": "onboarding",
+        "primaryPurpose": "Show analytics and comparison features",
+        "userActions": [
+          "Finish",
+          "Back"
+        ],
+        "inputFields": [],
+        "validationReference": [],
+        "dataReadFrom": [],
+        "dataWriteTo": [],
+        "cachingPolicy": "none",
+        "offlineBehavior": "full",
+        "connectedServices": [],
+        "navigationLinks": [
+          {
+            "to": "HomeScreen"
+          }
+        ],
+        "loadingState": "Fade-in animation",
+        "emptyState": "",
+        "errorState": "",
+        "retryBehavior": ""
+      },
+      {
+        "screenName": "HomeScreen",
+        "view": "HomeView",
+        "viewModel": "HomeViewModel",
+        "screenType": "home",
+        "primaryPurpose": "Overview and quick access to core features",
+        "userActions": [
+          "StartNewMatch",
+          "ViewRecentInnings",
+          "GoToLibrary",
+          "GoToAnalytics"
+        ],
+        "inputFields": [],
+        "validationReference": [],
+        "dataReadFrom": [
+          "InningsRepository"
+        ],
+        "dataWriteTo": [],
+        "cachingPolicy": "session",
+        "offlineBehavior": "full",
+        "connectedServices": [
+          "Room database"
+        ],
+        "navigationLinks": [
+          {
+            "to": "CreateMatchScreen"
+          },
+          {
+            "to": "InningsLibraryScreen"
+          },
+          {
+            "to": "AnalyticsScreen"
+          }
+        ],
+        "loadingState": "Shimmer cards for recent innings",
+        "emptyState": "No innings yet message",
+        "errorState": "Failed to load data message",
+        "retryBehavior": "Reload home data"
+      },
+      {
+        "screenName": "CreateMatchScreen",
+        "view": "CreateMatchView",
+        "viewModel": "CreateMatchViewModel",
+        "screenType": "input",
+        "primaryPurpose": "Create new match and set parameters",
+        "userActions": [
+          "SubmitMatch",
+          "Cancel"
+        ],
+        "inputFields": [
+          {
+            "fieldName": "matchName",
+            "fieldType": "text",
+            "required": true,
+            "validationGroup": "textFieldRules",
+            "defaultValue": "",
+            "storageLocation": "Room database"
+          },
+          {
+            "fieldName": "matchFormat",
+            "fieldType": "selection",
+            "required": true,
+            "validationGroup": "selectionRules",
+            "defaultValue": "T20",
+            "storageLocation": "Room database"
+          },
+          {
+            "fieldName": "matchDate",
+            "fieldType": "date",
+            "required": true,
+            "validationGroup": "dateFieldRules",
+            "defaultValue": "",
+            "storageLocation": "Room database"
+          }
+        ],
+        "validationReference": [
+          "textFieldRules",
+          "selectionRules",
+          "dateFieldRules"
+        ],
+        "dataReadFrom": [],
+        "dataWriteTo": [
+          "Room database"
+        ],
+        "cachingPolicy": "none",
+        "offlineBehavior": "full",
+        "connectedServices": [
+          "Room database"
+        ],
+        "navigationLinks": [
+          {
+            "to": "OverInputScreen"
+          }
+        ],
+        "loadingState": "Button progress indicator",
+        "emptyState": "",
+        "errorState": "Validation error or save failure",
+        "retryBehavior": "Retry save"
+      },
+      {
+        "screenName": "OverInputScreen",
+        "view": "OverInputView",
+        "viewModel": "OverInputViewModel",
+        "screenType": "input",
+        "primaryPurpose": "Manual entry of over data",
+        "userActions": [
+          "AddOver",
+          "EditOver",
+          "DeleteOver",
+          "SaveOverData"
+        ],
+        "inputFields": [
+          {
+            "fieldName": "runs",
+            "fieldType": "number",
+            "required": true,
+            "validationGroup": "numericFieldRules",
+            "defaultValue": "0",
+            "storageLocation": "Room database"
+          },
+          {
+            "fieldName": "wicket",
+            "fieldType": "selection",
+            "required": true,
+            "validationGroup": "selectionRules",
+            "defaultValue": "No",
+            "storageLocation": "Room database"
+          },
+          {
+            "fieldName": "phaseType",
+            "fieldType": "selection",
+            "required": true,
+            "validationGroup": "selectionRules",
+            "defaultValue": "Powerplay",
+            "storageLocation": "Room database"
+          },
+          {
+            "fieldName": "note",
+            "fieldType": "text",
+            "required": false,
+            "validationGroup": "textFieldRules",
+            "defaultValue": "",
+            "storageLocation": "Room database"
+          }
+        ],
+        "validationReference": [
+          "numericFieldRules",
+          "selectionRules",
+          "textFieldRules"
+        ],
+        "dataReadFrom": [
+          "Room database"
+        ],
+        "dataWriteTo": [
+          "Room database"
+        ],
+        "cachingPolicy": "session",
+        "offlineBehavior": "full",
+        "connectedServices": [
+          "Room database"
+        ],
+        "navigationLinks": [
+          {
+            "to": "InningsDetailScreen"
+          }
+        ],
+        "loadingState": "Inline loader",
+        "emptyState": "No overs entered yet",
+        "errorState": "Input validation failed",
+        "retryBehavior": "Prompt user to correct input"
+      },
+      {
+        "screenName": "InningsLibraryScreen",
+        "view": "InningsLibraryView",
+        "viewModel": "InningsLibraryViewModel",
+        "screenType": "list",
+        "primaryPurpose": "Browse and search saved innings",
+        "userActions": [
+          "Search",
+          "Sort",
+          "SelectInning"
+        ],
+        "inputFields": [],
+        "validationReference": [],
+        "dataReadFrom": [
+          "Room database"
+        ],
+        "dataWriteTo": [],
+        "cachingPolicy": "persistent",
+        "offlineBehavior": "full",
+        "connectedServices": [
+          "Room database"
+        ],
+        "navigationLinks": [
+          {
+            "to": "InningsDetailScreen"
+          }
+        ],
+        "loadingState": "Shimmer list items",
+        "emptyState": "No innings in library",
+        "errorState": "Failed to load library",
+        "retryBehavior": "Reload library"
+      },
+      {
+        "screenName": "InningsDetailScreen",
+        "view": "InningsDetailView",
+        "viewModel": "InningsDetailViewModel",
+        "screenType": "detail",
+        "primaryPurpose": "Show tempo graph and inning stats",
+        "userActions": [
+          "ViewGraph",
+          "ViewNotes",
+          "GoToEdit",
+          "CompareWithOther"
+        ],
+        "inputFields": [],
+        "validationReference": [],
+        "dataReadFrom": [
+          "Room database"
+        ],
+        "dataWriteTo": [],
+        "cachingPolicy": "session",
+        "offlineBehavior": "full",
+        "connectedServices": [
+          "Room database"
+        ],
+        "navigationLinks": [
+          {
+            "to": "EditInningScreen"
+          },
+          {
+            "to": "AnalyticsScreen"
+          }
+        ],
+        "loadingState": "Graph shimmer",
+        "emptyState": "No data for inning",
+        "errorState": "Failed to load inning detail",
+        "retryBehavior": "Reload detail"
+      },
+      {
+        "screenName": "EditInningScreen",
+        "view": "EditInningView",
+        "viewModel": "EditInningViewModel",
+        "screenType": "edit",
+        "primaryPurpose": "Edit over data and notes",
+        "userActions": [
+          "EditOver",
+          "SaveChanges",
+          "CancelEdit"
+        ],
+        "inputFields": [
+          {
+            "fieldName": "runs",
+            "fieldType": "number",
+            "required": true,
+            "validationGroup": "numericFieldRules",
+            "defaultValue": "0",
+            "storageLocation": "Room database"
+          },
+          {
+            "fieldName": "wicket",
+            "fieldType": "selection",
+            "required": true,
+            "validationGroup": "selectionRules",
+            "defaultValue": "No",
+            "storageLocation": "Room database"
+          },
+          {
+            "fieldName": "phaseType",
+            "fieldType": "selection",
+            "required": true,
+            "validationGroup": "selectionRules",
+            "defaultValue": "Powerplay",
+            "storageLocation": "Room database"
+          },
+          {
+            "fieldName": "note",
+            "fieldType": "text",
+            "required": false,
+            "validationGroup": "textFieldRules",
+            "defaultValue": "",
+            "storageLocation": "Room database"
+          }
+        ],
+        "validationReference": [
+          "numericFieldRules",
+          "selectionRules",
+          "textFieldRules"
+        ],
+        "dataReadFrom": [
+          "Room database"
+        ],
+        "dataWriteTo": [
+          "Room database"
+        ],
+        "cachingPolicy": "session",
+        "offlineBehavior": "full",
+        "connectedServices": [
+          "Room database"
+        ],
+        "navigationLinks": [
+          {
+            "to": "InningsDetailScreen"
+          }
+        ],
+        "loadingState": "Inline loader",
+        "emptyState": "No overs to edit",
+        "errorState": "Save failed or validation error",
+        "retryBehavior": "Prompt user to correct input"
+      },
+      {
+        "screenName": "AnalyticsScreen",
+        "view": "AnalyticsView",
+        "viewModel": "AnalyticsViewModel",
+        "screenType": "analytics",
+        "primaryPurpose": "Visualize tempo and compare innings",
+        "userActions": [
+          "SelectInningsForComparison",
+          "ViewGraph",
+          "ExportAnalytics"
+        ],
+        "inputFields": [
+          {
+            "fieldName": "selectedInnings",
+            "fieldType": "selection",
+            "required": true,
+            "validationGroup": "selectionRules",
+            "defaultValue": "",
+            "storageLocation": "Room database"
+          }
+        ],
+        "validationReference": [
+          "selectionRules"
+        ],
+        "dataReadFrom": [
+          "Room database"
+        ],
+        "dataWriteTo": [],
+        "cachingPolicy": "session",
+        "offlineBehavior": "full",
+        "connectedServices": [
+          "Room database",
+          "mpandroidchart"
+        ],
+        "navigationLinks": [
+          {
+            "to": "InningsDetailScreen"
+          }
+        ],
+        "loadingState": "Graph shimmer",
+        "emptyState": "No analytics data",
+        "errorState": "Failed to load analytics",
+        "retryBehavior": "Reload analytics"
+      },
+      {
+        "screenName": "SettingsScreen",
+        "view": "SettingsView",
+        "viewModel": "SettingsViewModel",
+        "screenType": "settings",
+        "primaryPurpose": "Manage app preferences and data",
+        "userActions": [
+          "ChangeTheme",
+          "ExportData",
+          "ImportData",
+          "ClearLibrary",
+          "ResetSettings",
+          "RateApp",
+          "ShareApp",
+          "ViewPrivacyPolicy"
+        ],
+        "inputFields": [],
+        "validationReference": [],
+        "dataReadFrom": [
+          "ThemeManager",
+          "Room database"
+        ],
+        "dataWriteTo": [
+          "ThemeManager",
+          "Room database"
+        ],
+        "cachingPolicy": "persistent",
+        "offlineBehavior": "full",
+        "connectedServices": [
+          "ThemeManager",
+          "Room database"
+        ],
+        "navigationLinks": [],
+        "loadingState": "Settings shimmer",
+        "emptyState": "",
+        "errorState": "Failed to load settings",
+        "retryBehavior": "Reload settings"
+      }
+    ],
+    "services": [
+      {
+        "serviceName": "Room database",
+        "serviceType": "localStorage",
+        "persistence": "persistent"
+      },
+      {
+        "serviceName": "ThemeManager",
+        "serviceType": "theme",
+        "persistence": "session"
+      },
+      {
+        "serviceName": "mpandroidchart",
+        "serviceType": "charting",
+        "persistence": "none"
+      }
+    ],
+    "validation": {
+      "globalRules": {
+        "constraints": "All required fields must be filled; no invalid data types",
+        "errorMessage": "Please complete all required fields correctly",
+        "systemBehavior": "Block submission and highlight errors"
+      },
+      "textFieldRules": {
+        "constraints": "Max 100 characters, no special symbols except punctuation",
+        "errorMessage": "Text too long or contains invalid characters",
+        "systemBehavior": "Show inline error, block save"
+      },
+      "numericFieldRules": {
+        "constraints": "Only positive integers, max 200 runs per over",
+        "errorMessage": "Invalid run count",
+        "systemBehavior": "Show inline error, block save"
+      },
+      "dateFieldRules": {
+        "constraints": "Valid date, not in future",
+        "errorMessage": "Invalid date selected",
+        "systemBehavior": "Show date picker error, block save"
+      },
+      "imageRules": {
+        "constraints": "Only PNG/JPEG, max 2MB, min 200x200px",
+        "errorMessage": "Invalid image format or size",
+        "systemBehavior": "Show image error, block upload"
+      },
+      "selectionRules": {
+        "constraints": "Must select from allowed options",
+        "errorMessage": "Invalid selection",
+        "systemBehavior": "Show selection error, block save"
+      },
+      "errorHandlingStrategy": {
+        "constraints": "Catch all exceptions, show user-friendly messages",
+        "errorMessage": "Something went wrong",
+        "systemBehavior": "Log error, show retry option"
+      },
+      "formSubmissionPolicy": {
+        "constraints": "Only submit if all validations pass",
+        "errorMessage": "Form contains errors",
+        "systemBehavior": "Block submission, scroll to first error"
+      }
+    },
+    "components": [
+      {
+        "componentName": "TempoGraph",
+        "componentType": "chart",
+        "usedIn": [
+          "InningsDetailScreen",
+          "AnalyticsScreen"
+        ]
+      },
+      {
+        "componentName": "OverInputForm",
+        "componentType": "form",
+        "usedIn": [
+          "OverInputScreen",
+          "EditInningScreen"
+        ]
+      },
+      {
+        "componentName": "MatchSummaryCard",
+        "componentType": "card",
+        "usedIn": [
+          "HomeScreen",
+          "InningsLibraryScreen"
+        ]
+      },
+      {
+        "componentName": "SettingsList",
+        "componentType": "list",
+        "usedIn": [
+          "SettingsScreen"
+        ]
+      }
+    ],
+    "ratingFlow": {
+      "implementation": "Native",
+      "platform": "Android",
+      "api": "In-App Review API",
+      "threshold": 4,
+      "feedbackForm": false,
+      "validationRules": {
+        "constraints": "User must interact with app at least twice before prompt",
+        "errorMessage": "",
+        "systemBehavior": "Show native review dialog if eligible"
+      }
+    },
+    "notificationFlows": [
+      {
+        "notificationType": "reminder",
+        "title": "Complete your match analysis",
+        "body": "Don’t forget to finish entering over data for your ongoing match.",
+        "triggerCondition": "Incomplete match data after 2 hours",
+        "frequency": "once",
+        "deepLinkDestination": "OverInputScreen",
+        "relatedFeature": "OverInput"
+      },
+      {
+        "notificationType": "insight",
+        "title": "New tempo pattern detected",
+        "body": "A new tempo trend has been identified in your recent innings.",
+        "triggerCondition": "Pattern analysis complete",
+        "frequency": "asNeeded",
+        "deepLinkDestination": "AnalyticsScreen",
+        "relatedFeature": "Analytics"
+      }
+    ],
+    "settings": [
+      {
+        "itemName": "Privacy Policy",
+        "itemType": "link",
+        "persistenceLocation": "local",
+        "effectScope": "global",
+        "relatedFeature": ""
+      },
+      {
+        "itemName": "Rate App",
+        "itemType": "action",
+        "persistenceLocation": "local",
+        "effectScope": "global",
+        "relatedFeature": "ratingFlow"
+      },
+      {
+        "itemName": "Share App",
+        "itemType": "action",
+        "persistenceLocation": "local",
+        "effectScope": "global",
+        "relatedFeature": ""
+      },
+      {
+        "itemName": "Reset Settings",
+        "itemType": "action",
+        "persistenceLocation": "local",
+        "effectScope": "global",
+        "relatedFeature": ""
+      },
+      {
+        "itemName": "Clear Local Data",
+        "itemType": "action",
+        "persistenceLocation": "local",
+        "effectScope": "global",
+        "relatedFeature": ""
+      },
+      {
+        "itemName": "App Version",
+        "itemType": "info",
+        "persistenceLocation": "local",
+        "effectScope": "global",
+        "relatedFeature": ""
+      },
+      {
+        "itemName": "Theme",
+        "itemType": "selection",
+        "persistenceLocation": "local",
+        "effectScope": "ui",
+        "relatedFeature": "ThemeManager"
+      },
+      {
+        "itemName": "Export Data",
+        "itemType": "action",
+        "persistenceLocation": "local",
+        "effectScope": "data",
+        "relatedFeature": "Room database"
+      },
+      {
+        "itemName": "Import Data",
+        "itemType": "action",
+        "persistenceLocation": "local",
+        "effectScope": "data",
+        "relatedFeature": "Room database"
+      }
+    ]
+  }
+}

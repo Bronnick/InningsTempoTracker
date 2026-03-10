@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Innings Tempo Tracker</string>
+
+    <!-- Bottom tabs -->
+    <string name="tab_home">Home</string>
+    <string name="tab_library">Library</string>
+    <string name="tab_analytics">Analytics</string>
+    <string name="tab_settings">Settings</string>
+
+    <!-- Preloader -->
+    <string name="preloader_initializing">Initializing…</string>
+    <string name="preloader_error">Something went wrong. Please try again.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_1_title">Track Cricket Tempo</string>
+    <string name="onboarding_1_desc">Analyze over-by-over performance to understand the flow and key moments of any innings.</string>
+    <string name="onboarding_2_title">Log Every Over</string>
+    <string name="onboarding_2_desc">Manually enter runs, wickets, and game phase for each over to build a detailed innings profile.</string>
+    <string name="onboarding_3_title">Discover Patterns</string>
+    <string name="onboarding_3_desc">Compare multiple innings and identify tempo trends to improve tactical decisions.</string>
+
+    <!-- Home -->
+    <string name="home_recent_innings">Recent Innings</string>
+    <string name="home_start_new_match">Start New Match</string>
+    <string name="home_empty_title">No innings yet</string>
+    <string name="home_empty_desc">Tap the + button to start your first match.</string>
+
+    <!-- Match card -->
+    <string name="match_card_runs">%d runs</string>
+    <string name="match_card_wickets">%d wkts</string>
+    <string name="match_card_overs">%d overs</string>
+
+    <!-- Create Match -->
+    <string name="create_match_title">New Match</string>
+    <string name="create_match_name_label">Match Name</string>
+    <string name="create_match_name_hint">e.g. India vs Australia</string>
+    <string name="create_match_format_label">Format</string>
+    <string name="create_match_date_label">Match Date</string>
+    <string name="create_match_date_hint">Select date</string>
+    <string name="create_match_submit">Create Match</string>
+
+    <!-- Over Input -->
+    <string name="over_add">Add Over</string>
+    <string name="over_add_title">Add Over</string>
+    <string name="over_edit_title">Edit Over</string>
+    <string name="over_empty">No overs entered yet.\nTap + to add the first over.</string>
+    <string name="over_label">Over %d</string>
+    <string name="over_runs_label">Runs</string>
+    <string name="over_wicket_label">Wicket</string>
+    <string name="over_phase_label">Phase</string>
+    <string name="over_note_label">Note (optional)</string>
+
+    <!-- Library -->
+    <string name="library_search_hint">Search innings…</string>
+    <string name="library_empty_title">No innings saved</string>
+    <string name="library_empty_desc">Start tracking to build your library.</string>
+    <string name="library_no_results">No results found</string>
+
+    <!-- Innings Detail -->
+    <string name="detail_tempo_graph">Tempo Graph</string>
+    <string name="detail_total_runs">Runs</string>
+    <string name="detail_wickets">Wickets</string>
+    <string name="detail_run_rate">Run Rate</string>
+    <string name="detail_phase_breakdown">Phase Breakdown</string>
+    <string name="detail_key_over">Most Impactful Over</string>
+    <string name="detail_key_over_desc">Over %1$d — %2$d runs (%3$s)</string>
+    <string name="detail_compare">Compare in Analytics</string>
+    <string name="detail_no_data">No data for this innings.</string>
+
+    <!-- Phases -->
+    <string name="phase_powerplay">Powerplay</string>
+    <string name="phase_middle">Middle</string>
+    <string name="phase_death">Death</string>
+
+    <!-- Edit Inning -->
+    <string name="edit_inning_title">Edit Innings</string>
+    <string name="edit_select_over">Select an over to edit</string>
+    <string name="edit_edit_over">Edit Over Data</string>
+    <string name="edit_no_overs">No overs to edit.</string>
+
+    <!-- Analytics -->
+    <string name="analytics_select_hint">Select up to 4 innings to compare</string>
+    <string name="analytics_empty">No innings available. Add matches to see analytics.</string>
+    <string name="analytics_tempo_chart">Tempo Comparison</string>
+    <string name="analytics_averages">Average Run Rate</string>
+    <string name="analytics_rr_value">%.2f RPO</string>
+
+    <!-- Settings -->
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_data">Data</string>
+    <string name="settings_section_general">General</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_export">Export Data</string>
+    <string name="settings_import">Import Data</string>
+    <string name="settings_clear_library">Clear Library</string>
+    <string name="settings_rate_app">Rate App</string>
+    <string name="settings_share_app">Share App</string>
+    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_reset">Reset Settings</string>
+    <string name="settings_version">App Version</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_clear_library_title">Clear Library?</string>
+    <string name="dialog_clear_library_message">This will permanently delete all saved innings. This cannot be undone.</string>
+    <string name="dialog_reset_settings_title">Reset Settings?</string>
+    <string name="dialog_reset_settings_message">All settings will be reset to defaults.</string>
+    <string name="dialog_delete_over_title">Delete Over?</string>
+    <string name="dialog_delete_over_message">Delete over %d? This cannot be undone.</string>
+
+    <!-- Common actions -->
+    <string name="action_retry">Retry</string>
+    <string name="action_next">Next</string>
+    <string name="action_back">Back</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_get_started">Get Started</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save</string>
+    <string name="action_save_changes">Save Changes</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_done">Done</string>
+</resources>

@@ -1,0 +1,25 @@
+Innings Tempo Tracker is a specialized mobile application for manual analysis of innings tempo in cricket, designed for coaches, analysts, players, and passionate fans who want to better understand the dynamics of the game by overs. The product addresses the need for detailed tracking and visualization of tempo changes, identification of key phases and turning points, and the creation of tempo profile archives for further analysis. Interaction is based on sequential data entry for each over, emphasizing user control and conscious work with gameplay patterns. The application is positioned as a tool for improving tactical awareness and strategic thinking in cricket.
+
+The user journey begins with a loading screen where all services are initialized, dependencies are checked, the theme is loaded, and a smooth transition to onboarding is performed. The onboarding consists of three screens: the first introduces the concept of tempo analysis, the second explains the process of manual data entry by overs, and the third demonstrates the possibilities of comparing matches and identifying patterns. After completing onboarding, the user is taken to the home screen, which displays a brief summary of recent innings, quick access to creating a new match, and recommendations for analysis.
+
+The preloader screen is implemented with a CircularLoader animation, displaying the progress of initialization. It checks the readiness of local storage, validates dependencies, loads user theme settings, and transitions to onboarding after the environment is successfully prepared. In case of errors, an informative message is shown and the user is given the option to retry the initialization process.
+
+Onboarding is structured in stages. The first screen contains a visual description of the application's goals, the second presents an interactive demonstration of manual over input, and the third shows examples of analytical charts and comparisons. Each screen is accompanied by concise explanations, the ability to skip the stage, and navigation to the next step.
+
+The home screen provides an overview of recent analyses, quick start for creating a new match, displays tempo dynamics for recent innings, and offers tips for using the application more effectively. Navigation to the innings library, analytics section, and settings is also available.
+
+The match creation screen allows the user to select a format (T20, ODI, Test, Custom), set the match name, date, and parameters. After creating a match, the user proceeds to the over data entry screen, where for each over the number of runs, presence of a wicket, phase type, and a short note can be specified. Validation prevents skipping required fields and entering incorrect data.
+
+The innings list screen displays an archive of all saved analyses with sorting and search capabilities. Each list item leads to a detailed innings screen where tempo visualization, key statistics, user notes, and moments with the greatest impact on the result are highlighted.
+
+The editing screen allows correction of over data, adding or modifying notes, and recalculating analytics in real time. All changes are saved locally and immediately reflected in analytical charts.
+
+The analytics screen builds a tempo chart by phases, calculates averages, shows the difference between planned and actual performance, identifies the over with the greatest impact, and evaluates the stability of run scoring. The user can compare multiple innings, identify recurring scenarios, and draw their own conclusions.
+
+Application settings include theme management, data export and import, clearing the local archive, resetting user parameters, viewing the privacy policy, the ability to rate the application, and share it. A function for resetting all settings and deleting all data is implemented with confirmation.
+
+All interactive screens support loading states, empty list states, error states, and retry mechanisms. The application is resilient to connection loss: all data is cached locally and synchronized when the connection is restored.
+
+User interaction with the application is built around BottomTabNavigation, where the main sections — Home, Library, Analytics, Settings — are accessible from the bottom panel, enabling quick navigation between key functions.
+
+The visual system of the application is based on a light theme with accents of deep blue (#2476D1) and additional shades of blue (#5EB8FF) used to highlight active elements and charts. A modern geometric typography with a clear hierarchy of headings and text is used. All elements have a medium corner radius, moderate shadows for block separation, and smooth, unobtrusive animations that create a sense of lightness and technological sophistication.

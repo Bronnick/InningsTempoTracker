@@ -1,0 +1,446 @@
+Technical Specification (TS)
+
+This document describes the mandatory requirements for an Android application that the developer must deliver as a finished project.
+
+Language of the project: Kotlin
+UI: Jetpack Compose + Material 3
+DI: Koin
+
+Min SDK: 24+ (unless agreed otherwise)
+Target SDK: 36
+
+Target platform: Android (no iOS, no KMP)
+
+applicationId must start with com.
+
+Example:
+
+com.clientname.appname
+
+The final project must open and build in Android Studio without additional manual steps.
+
+1. .gitignore and Secrets
+
+The project root must contain a .gitignore file that excludes:
+
+.idea, *.iml
+
+all build/ directories
+
+signing keys and local private files
+
+temporary developer configuration files
+
+The repository must NOT contain:
+
+API keys in plain text
+
+access tokens
+
+passwords or any other secrets
+
+2. Architecture and Code Structure
+
+The architecture must be simple, readable, and maintainable.
+
+Do not artificially complicate the project with excessive layered patterns unless the application logic actually requires them.
+
+Within the app module, the code must be separated into packages by responsibility.
+
+Example structure
+com/client/app/
+    ui/        // Jetpack Compose screens, screen state, navigation
+    data/      // Network, local storage, settings
+    di/        // Dependency modules (Koin)
+    utils/     // Helpers, utility classes
+Package descriptions
+ui/
+
+Contains:
+
+Composable screens
+
+ViewModels
+
+UI state classes (data class UiState)
+
+navigation between screens
+
+Important rule:
+
+Network requests and database access must NOT be called directly from Composables.
+
+data/
+
+Contains:
+
+network calls (API clients, services)
+
+local storage (Room, DataStore)
+
+repositories that encapsulate data access
+
+di/
+
+Contains Koin modules defining dependencies:
+
+network client
+
+repositories
+
+local storage
+
+ViewModels
+
+utils/
+
+Contains small helper utilities, for example:
+
+date formatting
+
+logging wrapper
+
+simple extension functions
+
+You do not need to introduce a separate domain/ layer or use cases if they do not add real value.
+
+However, the code inside ViewModels must not become a “dumping ground”.
+
+Business logic should be moved to repositories or dedicated classes where appropriate.
+
+3. Resources (res/)
+
+All resources must be organized and named according to the rules.
+
+Images (raster: PNG / WebP)
+
+Folder:
+
+res/drawable
+
+Naming format:
+
+img_<description>.png
+
+Example:
+
+img_user_placeholder.png
+Icons (vector XML)
+
+Naming format:
+
+ic_<description>.xml
+
+Example:
+
+ic_settings.xml
+Fonts
+
+Folder:
+
+res/font
+
+Naming format:
+
+<fontname>_<style>.ttf
+Strings (UI text)
+
+File:
+
+res/values/strings.xml
+
+Key naming format:
+
+lower_snake_case
+
+Example:
+
+<string name="error_no_connection">No internet connection</string>
+Important rule
+
+You must NOT hardcode UI text directly in Composables, such as:
+
+Text("Some text")
+
+Instead use:
+
+stringResource(R.string.some_key)
+Other files
+
+Animations (Lottie .json), sounds, etc.:
+
+res/raw
+
+Naming format:
+
+anim_<description>.json
+
+Example:
+
+anim_success.json
+
+If a required folder does not exist — it must be created.
+
+4. Theme, Design Tokens and Styles
+4.1 General idea
+
+The application must have a single design system based on tokens, passed via CompositionLocal.
+
+This means:
+
+We DO NOT use colors directly like:
+
+Color(0xFF...)
+
+We DO NOT define font sizes directly in Text.
+
+All values must be read through LocalAppTheme.
+
+4.2 LocalAppTheme
+
+Inside the theme/ package there must be a public theme accessor like this:
+
+object LocalAppTheme {
+
+    /**
+     * Current color tokens.
+     */
+    val colors: ColorTokens
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalColorTokens.current
+
+    /**
+     * Current typography tokens (font sizes, weights, text styles).
+     */
+    val typography: TypographyTokens
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalTypographyTokens.current
+
+    /**
+     * Current shape tokens (corner radius, card shapes etc).
+     */
+    val shapes: ShapeTokens
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalShapeTokens.current
+
+    /**
+     * Current dimension tokens (sizes of elements if needed).
+     * If the app does not use them they can stay empty or minimal.
+     */
+    val dimens: DimensionTokens
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalDimensionTokens.current
+}
+
+Type names may vary (ColorTokens, TypographyTokens, etc.), but the concept must remain:
+
+token data classes
+
+CompositionLocal providers
+
+LocalAppTheme as a facade
+
+4.3 Example usage in UI
+
+Inside any Composable you must not write colors or sizes directly.
+
+Correct usage example:
+
+val colors = LocalAppTheme.colors
+val typo = LocalAppTheme.typography
+val shapes = LocalAppTheme.shapes
+
+Box(
+    modifier = Modifier
+        .background(colors.background.page.primary)
+        .clip(shapes.card.defaultRadius)
+) {
+    Text(
+        text = state.title,
+        style = typo.title.primary,
+        color = colors.text.primary
+    )
+}
+5. Navigation
+
+Navigation must be implemented using Navigation Compose.
+
+All screen routes must be declared centrally, for example in:
+
+ui/navigation
+
+Data between screens must be passed using simple types:
+
+id
+
+url
+
+token
+
+tabName
+
+Do not pass large objects between screens.
+
+Screen state must be restored in the ViewModel based on parameters.
+
+6. Dependency Injection
+
+The app must use Koin.
+
+Requirements:
+
+All Koin modules must be located in:
+
+di/
+
+Modules must register:
+
+network client
+
+repositories
+
+local storage
+
+ViewModels
+
+service classes (if any)
+
+Example:
+
+val appModule = module {
+    single { provideHttpClient() }
+    single<AuthRepository> { AuthRepositoryImpl(get()) }
+    viewModel { MainViewModel(get()) }
+}
+7. Networking
+
+All network calls must be executed through one centralized HTTP client (e.g., Ktor Client).
+
+Requirements:
+
+Client configuration (timeouts, logging, headers etc.) must be placed in a single provider and not duplicated.
+
+For each group of requests create a service, for example:
+
+AuthApi
+
+ProfileApi
+
+instead of executing HTTP calls directly inside ViewModels.
+
+Architecture flow:
+
+ViewModel → Repository → API Service → HTTP Client
+
+Sensitive values such as:
+
+URLs
+
+API keys
+
+tokens
+
+must not be hardcoded directly in request code.
+
+8. Local Data
+Room
+
+If the application stores local data:
+
+Use Room.
+
+Location:
+
+data/db
+
+Contains:
+
+DAO
+
+Entity
+
+AppDatabase
+
+ViewModel must not operate directly on Room entities.
+
+The repository converts them into UI models.
+
+DataStore
+
+Used for:
+
+user settings
+
+session tokens
+
+simple flags
+
+9. Configuration Values and Application ID
+
+You must NOT hardcode the package name, such as:
+
+val pkg = "com.clientname.appname" // forbidden
+
+If you need the package name at runtime (for example for resources or deep links), use:
+
+val packageName = BuildConfig.APPLICATION_ID
+
+This rule is mandatory.
+
+applicationId must be defined only once in Gradle configuration and must not be duplicated manually.
+
+10. Application Name
+
+The application name must not be hardcoded in UI or code.
+
+Requirements:
+
+The app name must be defined in one place.
+
+Changing it there must automatically update it everywhere.
+
+Forbidden:
+
+Text("Client App")
+
+Correct approach:
+
+<string name="app_name">Client App</string>
+
+Stored in:
+
+res/values/strings.xml
+11. Support for minify and shrinkResources
+
+The application must correctly work with build optimizations enabled.
+
+The project must successfully run with:
+
+minifyEnabled true
+shrinkResources true
+
+The application must not crash in release builds.
+
+If the project uses:
+
+reflection
+
+serialization
+
+DI
+
+third-party SDKs
+
+JSON models
+
+Room / Ktor / DataStore
+
+then the necessary rules must be added to:
+
+proguard-rules.pro
+
+If you want, I can also give you a clean Android project template that already satisfies this entire specification (Compose + Koin + Navigation + Ktor + Room + Theme tokens) so you can start development immediately.
