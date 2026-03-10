@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "mcp__ide__getDiagnostics",
-      "Bash(./gradlew :app:compileDebugKotlin:*)"
+      "Bash(./gradlew :app:compileDebugKotlin:*)",
+      "Bash(git rm:*)"
     ]
   }
 }

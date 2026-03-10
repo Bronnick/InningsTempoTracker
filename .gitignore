@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Signing keys
+key123123/
+*.jks
+*.keystore
