@@ -160,7 +160,27 @@ fun AnalyticsScreen(navController: NavController) {
 private fun ComparisonLineChart(matchDetails: List<MatchDetail>) {
     val dimens = LocalAppTheme.dimens
     val shapes = LocalAppTheme.shapes
-    val cardColor = LocalAppTheme.colors.card
+    val colors = LocalAppTheme.colors
+    val cardColor = colors.card
+
+    val textColor = colors.textSecondary
+    val textColorInt = AndroidColor.rgb(
+        (textColor.red * 255).toInt(),
+        (textColor.green * 255).toInt(),
+        (textColor.blue * 255).toInt()
+    )
+    val legendColor = colors.textPrimary
+    val legendColorInt = AndroidColor.rgb(
+        (legendColor.red * 255).toInt(),
+        (legendColor.green * 255).toInt(),
+        (legendColor.blue * 255).toInt()
+    )
+    val borderColor = colors.border
+    val borderColorInt = AndroidColor.rgb(
+        (borderColor.red * 255).toInt(),
+        (borderColor.green * 255).toInt(),
+        (borderColor.blue * 255).toInt()
+    )
 
     Box(
         modifier = Modifier
@@ -175,6 +195,7 @@ private fun ComparisonLineChart(matchDetails: List<MatchDetail>) {
                 LineChart(context).apply {
                     description.isEnabled = false
                     setTouchEnabled(false)
+                    setBackgroundColor(AndroidColor.TRANSPARENT)
                     axisRight.isEnabled = false
                     xAxis.position = XAxis.XAxisPosition.BOTTOM
                     xAxis.setDrawGridLines(false)
@@ -184,6 +205,11 @@ private fun ComparisonLineChart(matchDetails: List<MatchDetail>) {
                 }
             },
             update = { chart ->
+                chart.xAxis.textColor = textColorInt
+                chart.axisLeft.textColor = textColorInt
+                chart.axisLeft.gridColor = borderColorInt
+                chart.legend.textColor = legendColorInt
+
                 val maxOvers = matchDetails.maxOfOrNull { it.overs.size } ?: 0
                 val labels = (1..maxOvers).map { "O$it" }
                 chart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)

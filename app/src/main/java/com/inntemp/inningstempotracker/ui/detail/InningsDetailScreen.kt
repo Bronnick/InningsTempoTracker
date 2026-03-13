@@ -181,11 +181,24 @@ private fun StatCard(label: String, value: String, modifier: Modifier = Modifier
 
 @Composable
 fun TempoBarChart(matchDetail: MatchDetail) {
-    val accentColor = LocalAppTheme.colors.primaryAccent
+    val colors = LocalAppTheme.colors
+    val accentColor = colors.primaryAccent
     val accentColorInt = AndroidColor.rgb(
         (accentColor.red * 255).toInt(),
         (accentColor.green * 255).toInt(),
         (accentColor.blue * 255).toInt()
+    )
+    val textColor = colors.textSecondary
+    val textColorInt = AndroidColor.rgb(
+        (textColor.red * 255).toInt(),
+        (textColor.green * 255).toInt(),
+        (textColor.blue * 255).toInt()
+    )
+    val borderColor = colors.border
+    val borderColorInt = AndroidColor.rgb(
+        (borderColor.red * 255).toInt(),
+        (borderColor.green * 255).toInt(),
+        (borderColor.blue * 255).toInt()
     )
     val dimens = LocalAppTheme.dimens
 
@@ -194,7 +207,7 @@ fun TempoBarChart(matchDetail: MatchDetail) {
             .fillMaxWidth()
             .height(200.dp)
             .clip(RoundedCornerShape(LocalAppTheme.shapes.md))
-            .background(LocalAppTheme.colors.card)
+            .background(colors.card)
             .padding(dimens.xs)
     ) {
         AndroidView(
@@ -203,6 +216,7 @@ fun TempoBarChart(matchDetail: MatchDetail) {
                     description.isEnabled = false
                     legend.isEnabled = false
                     setTouchEnabled(false)
+                    setBackgroundColor(AndroidColor.TRANSPARENT)
                     axisRight.isEnabled = false
                     xAxis.position = XAxis.XAxisPosition.BOTTOM
                     xAxis.setDrawGridLines(false)
@@ -213,6 +227,9 @@ fun TempoBarChart(matchDetail: MatchDetail) {
                 }
             },
             update = { chart ->
+                chart.xAxis.textColor = textColorInt
+                chart.axisLeft.textColor = textColorInt
+                chart.axisLeft.gridColor = borderColorInt
                 val entries = matchDetail.overs.mapIndexed { i, over ->
                     BarEntry(i.toFloat(), over.runs.toFloat())
                 }
